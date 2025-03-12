@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:workbee/home/manage_coins_page.dart';
 
-Widget buildCoinSection() {
+Widget buildCoinSection(BuildContext context) {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
     decoration: BoxDecoration(
@@ -61,7 +62,8 @@ Widget buildCoinSection() {
                   // Manage Coins Button
                   TextButton(
                     onPressed: () {
-                      // Handle button press
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ManageCoinsPage()));
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,

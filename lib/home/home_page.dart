@@ -15,13 +15,13 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           buildHeader(),
-          Expanded(child: _buildContent()),
+          Expanded(child: _buildContent(context)),
         ],
       ),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     return Transform.translate(
       offset: const Offset(0, -30),
       child: Container(
@@ -44,11 +44,11 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildCoinSection(),
+              buildCoinSection(context),
               const SizedBox(height: 20),
               buildSection('Works Available'),
               const SizedBox(height: 20),
-              buildSection('Your Created Works'),
+              buildSection('Created Works'),
             ],
           ),
         ),

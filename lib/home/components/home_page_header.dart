@@ -29,10 +29,7 @@ Widget buildHeader() {
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
     decoration: BoxDecoration(
       gradient: LinearGradient(
-        colors: [
-          const Color.fromARGB(255, 89, 98, 94),
-          const Color.fromARGB(255, 63, 72, 72),
-        ],
+        colors: [Color(0xFF232526), Color(0xFF414345)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
@@ -40,7 +37,7 @@ Widget buildHeader() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 6),
+        const SizedBox(height: 18),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

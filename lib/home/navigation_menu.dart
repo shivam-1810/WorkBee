@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:workbee/home/home_page.dart';
-import 'package:workbee/home/profile_page.dart';
+import 'package:workbee/home/profile_options.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -17,7 +17,7 @@ class _BasePageState extends State<BasePage> {
   final List<Widget> _pages = [
     const ChatPage(), // Chat Page
     const HomePage(), // Home Page
-    const ProfilePage(), // Profile Page
+    const ProfileOptions(), // Profile Page
   ];
 
   @override
@@ -45,9 +45,8 @@ class _BasePageState extends State<BasePage> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor:
             Color.fromARGB(255, 206, 206, 206), // Transparent background
-        color: const Color.fromARGB(255, 89, 98, 94), // White navigation bar
-        buttonBackgroundColor:
-            Color.fromARGB(255, 206, 206, 206), // Teal for selected button
+        color: Color.fromARGB(255, 49, 51, 53),
+        buttonBackgroundColor: Color.fromARGB(255, 43, 44, 46),
         height: 60,
         index: _currentPageIndex,
         onTap: (index) {
@@ -56,9 +55,9 @@ class _BasePageState extends State<BasePage> {
           });
         },
         items: const [
-          Icon(Icons.chat_rounded, color: Colors.black), // Chat Page Icon
-          Icon(Icons.home, color: Colors.black), // Home Page Icon
-          Icon(Icons.person, color: Colors.black), // Profile Page Icon
+          Icon(Icons.chat_rounded, color: Colors.white), // Chat Page Icon
+          Icon(Icons.home, color: Colors.white), // Home Page Icon
+          Icon(Icons.person, color: Colors.white), // Profile Page Icon
         ],
       ),
     );

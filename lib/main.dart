@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Workbee',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(useMaterial3: true),
       home: WelcomeScreen(),
     );
   }
