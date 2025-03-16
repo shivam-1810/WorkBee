@@ -46,9 +46,9 @@ class HomePage extends StatelessWidget {
             children: [
               buildCoinSection(context),
               const SizedBox(height: 20),
-              buildSection('Works Available'),
+              buildSection(context, 'Works Available'),
               const SizedBox(height: 20),
-              buildSection('Created Works'),
+              buildSection(context, 'Created Works'),
             ],
           ),
         ),

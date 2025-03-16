@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:workbee/home/available_works_page.dart';
 import 'package:workbee/home/components/build_work_card.dart';
 
-Widget buildSection(String title) {
+Widget buildSection(BuildContext context, String title) {
   final ScrollController scrollController = ScrollController();
 
   return Stack(
@@ -36,7 +37,10 @@ Widget buildSection(String title) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {}, // Handle 'View More' action
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AvailableWorksPage()));
+                  }, // Handle 'View More' action
                   child: const Text(
                     'View More >',
                     style: TextStyle(

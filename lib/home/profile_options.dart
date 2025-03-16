@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workbee/home/contact_us_page.dart';
 import 'package:workbee/home/manage_coins_page.dart';
+import 'package:workbee/home/your_profile_page.dart';
 
 class ProfileOptions extends StatelessWidget {
   const ProfileOptions({super.key});
@@ -59,7 +60,6 @@ class ProfileOptions extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height * 0.105),
               Expanded(
                 child: Navigator(
-                  // Nested Navigator for secondary pages
                   onGenerateRoute: (settings) {
                     return MaterialPageRoute(
                       builder: (context) => _buildOptionsList(context),
@@ -109,6 +109,12 @@ class ProfileOptions extends StatelessWidget {
           Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
               builder: (context) => ManageCoinsPage(),
+            ),
+          );
+        } else if (title == "Your Profile") {
+          Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(
+              builder: (context) => YourProfilePage(),
             ),
           );
         } else {

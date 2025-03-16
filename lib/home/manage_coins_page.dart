@@ -12,7 +12,7 @@ class _ManageCoinsPageState extends State<ManageCoinsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1D1D1F),
+        backgroundColor: Color(0xFF232526),
         title: const Text(
           "Manage Coins",
           style: TextStyle(
@@ -192,7 +192,7 @@ class _ManageCoinsPageState extends State<ManageCoinsPage> {
                 ElevatedButton(
                   onPressed: onPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D1D1F),
+                    backgroundColor: Color(0xFF232526),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
