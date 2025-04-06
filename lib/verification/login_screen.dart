@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:workbee/api.dart';
 import 'package:workbee/home/navigation_menu.dart';
 import 'package:workbee/verification/components/input_field.dart';
 import 'package:workbee/verification/register_screen.dart';
@@ -17,6 +20,62 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  bool _isLoading = false;
+
+  Future<void> _loginUser() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+
+      final url = Uri.parse("$api/login");
+      final Map<String, String> headers = {"Content-Type": "application/json"};
+      final Map<String, String> body = {
+        "userName": _usernameController.text,
+        "email": _emailController.text,
+        "passWord": _passwordController.text
+      };
+
+      try {
+        final response = await http.post(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+
+        if (response.statusCode == 202) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const BasePage()),
+          );
+        } else {
+          _showErrorDialog("Login failed! Please try again.");
+        }
+      } catch (e) {
+        _showErrorDialog("An unexpected error occurred! Please try again.");
+      }
+
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Login Failed"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text(
+              "OK",
+              style: TextStyle(color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,19 +197,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 3,
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const BasePage()));
-                        }
-                      },
-                      child: Text(
-                        "Login",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BasePage()),
+                        );
+                      }, //_isLoading? null: _loginUser,
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Login",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -173,9 +242,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegisterScreen()));
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
                         },
                         child: Text(
                           "Register Now",

@@ -64,7 +64,6 @@ class _BasePageState extends State<BasePage> {
   }
 }
 
-// Placeholder Widgets for Chat, Home, and Profile Pages
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
 
@@ -73,7 +72,7 @@ class ChatPage extends StatelessWidget {
     return const Center(
       child: Text(
         'Chat Page',
-        style: TextStyle(color: Colors.black, fontSize: 24), // Black text
+        style: TextStyle(color: Colors.black, fontSize: 24),
       ),
     );
   }

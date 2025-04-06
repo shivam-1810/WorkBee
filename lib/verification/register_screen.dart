@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:workbee/api.dart';
 import 'package:workbee/verification/components/input_field.dart';
 import 'package:workbee/verification/details_page.dart';
 import 'package:workbee/verification/login_screen.dart';
@@ -20,6 +23,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  bool _isLoading = false; // Loading state for button
+
+  Future<void> _registerUser() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true); // Show loading indicator
+
+      final url = Uri.parse("$api/register");
+      final Map<String, String> headers = {"Content-Type": "application/json"};
+      final Map<String, String> body = {
+        "userName": _usernameController.text,
+        "passWord": _passwordController.text,
+        "email": _emailController.text
+      };
+
+      try {
+        final response = await http.post(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+
+        if (response.statusCode == 202) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UserDetailsScreen()),
+          );
+        } else {
+          _showErrorDialog("Registration failed! Please try again.");
+        }
+      } catch (e) {
+        _showErrorDialog("An error occurred! Please try again.");
+      }
+
+      setState(() => _isLoading = false); // Hide loading indicator
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Registration Failed"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text(
+              "OK",
+              style: TextStyle(color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             colors: [
               Color.fromARGB(255, 234, 234, 234),
               Color.fromARGB(255, 206, 206, 206)
-            ], // Softer blend
+            ],
           ),
         ),
         child: Padding(
@@ -44,8 +103,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 80),
-
-                  // Title
                   Text(
                     "Hello!",
                     style: GoogleFonts.poppins(
@@ -64,8 +121,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-
-                  // Username Field
                   CustomTextField(
                     hintText: "Username",
                     controller: _usernameController,
@@ -74,8 +129,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         : null,
                   ),
                   const SizedBox(height: 20),
-
-                  // Email Field
                   CustomTextField(
                     hintText: "Email",
                     controller: _emailController,
@@ -90,8 +143,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-
-                  // Password Field
                   CustomTextField(
                     hintText: "Password",
                     isPassword: true,
@@ -107,8 +158,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-
-                  // Confirm Password Field
                   CustomTextField(
                     hintText: "Confirm password",
                     isPassword: true,
@@ -124,8 +173,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   const SizedBox(height: 30),
-
-                  // Register Button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -138,28 +185,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         elevation: 3,
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const UserDetailsScreen(),
+                                builder: (context) =>
+                                    const UserDetailsScreen()));
+                      }, //_isLoading ? null : _registerUser,
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Register",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          );
-                        }
-                      },
-                      child: Text(
-                        "Register",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Already have an account?
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
